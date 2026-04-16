@@ -14,21 +14,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please add a password']
   },
-  calorieGoal: {
-    type: Number,
-    default: 2000
-  },
-  proteinGoal: {
-    type: Number,
-    default: 150
-  },
-  carbsGoal: {
-    type: Number,
-    default: 250
-  },
-  fatGoal: {
-    type: Number,
-    default: 60
+  goals: {
+    calories: { type: Number, default: 2000 },
+    protein: { type: Number, default: 150 },
+    carbs: { type: Number, default: 250 },
+    fat: { type: Number, default: 60 }
   }
 }, {
   timestamps: true

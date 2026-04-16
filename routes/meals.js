@@ -7,8 +7,9 @@ const {
   deleteMeal,
 } = require('../controllers/mealController');
 const { protect } = require('../middleware/authMiddleware');
+const { validate, mealLogSchema } = require('../middleware/validateMiddleware');
 
-router.route('/').get(protect, getMeals).post(protect, setMeal);
-router.route('/:id').put(protect, updateMeal).delete(protect, deleteMeal);
+router.route('/').get(protect, getMeals).post(protect, validate(mealLogSchema), setMeal);
+router.route('/:id').put(protect, validate(mealLogSchema), updateMeal).delete(protect, deleteMeal);
 
 module.exports = router;
