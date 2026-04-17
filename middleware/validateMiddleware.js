@@ -29,6 +29,9 @@ const loginSchema = z.object({
 
 const mealLogSchema = z.object({
   mealType: z.enum(['Breakfast', 'Lunch', 'Dinner', 'Snacks']),
+  name: z.string().optional(),
+  description: z.string().optional(),
+  image: z.string().optional(),
   foods: z.array(
     z.object({
       food: z.string(), // Represents ObjectId

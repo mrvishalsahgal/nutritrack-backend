@@ -11,16 +11,23 @@ const getProfile = async (req, res) => {
 
 const updateProfile = async (req, res) => {
   try {
-    const { name, goals } = req.body;
+    const { name, bio, avatar, goals, preferences } = req.body;
     const user = await User.findById(req.user.id);
     if (!user) return res.status(404).json({ message: 'User not found' });
 
-    user.name = name || user.name;
+    if (name) user.name = name;
+    if (bio) user.bio = bio;
+    if (avatar) user.avatar = avatar;
+    
     if (goals) {
       if (goals.calories) user.goals.calories = goals.calories;
       if (goals.protein) user.goals.protein = goals.protein;
       if (goals.carbs) user.goals.carbs = goals.carbs;
       if (goals.fat) user.goals.fat = goals.fat;
+    }
+
+    if (preferences) {
+      user.preferences = { ...user.preferences, ...preferences };
     }
 
     const updatedUser = await user.save();

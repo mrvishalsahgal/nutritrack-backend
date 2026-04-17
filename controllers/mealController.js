@@ -29,7 +29,7 @@ const getMeals = async (req, res) => {
 // @access  Private
 const setMeal = async (req, res) => {
   try {
-    const { mealType, foods, totalNutrients, name, image } = req.body;
+    const { mealType, foods, totalNutrients, name, description, image } = req.body;
     
     if (!mealType) {
       return res.status(400).json({ message: 'mealType is required' });
@@ -39,6 +39,7 @@ const setMeal = async (req, res) => {
       user: req.user.id,
       mealType,
       name,
+      description,
       image,
       foods: foods || [],
       totalNutrients: totalNutrients || { calories: 0, protein: 0, carbs: 0, fat: 0 }
@@ -65,7 +66,9 @@ const updateMeal = async (req, res) => {
       return res.status(401).json({ message: 'User not authorized' });
     }
 
-    const updatedMeal = await MealLog.findByIdAndUpdate(req.params.id, req.body, {
+    const updatedMeal = await MealLog.findByIdAndUpdate(req.params.id, {
+      ...req.body
+    }, {
       new: true,
     });
 

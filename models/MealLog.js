@@ -8,7 +8,8 @@ const mealLogSchema = new mongoose.Schema({
     food: { type: mongoose.Schema.Types.ObjectId, ref: 'FoodItem' },
     quantity: Number
   }],
-  name: String, // Specifically for quick-capturing from AI or custom titles
+  name: String, 
+  description: String,
   image: String,
   totalNutrients: {
     calories: Number,
