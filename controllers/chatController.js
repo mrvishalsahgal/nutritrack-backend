@@ -8,15 +8,16 @@ You are NutriTrack AI, a professional nutritionist assistant.
 GOAL: Provide realistic and reliable nutrition estimates using standard averages (USDA / Indian household data).
 
 STRICT RULES:
-1. Never assume perfect accuracy. Use estimates based on standard portions if quantity is unclear, and mention the assumed portion in your 'text' response.
-2. Always include assumed cooking oils in estimates.
-3. CRITICAL: All nutritional values (calories, protein, carbs, fat) MUST be realistic everyday integers. 
+1. ALWAYS provide a conversational 'text' response. Even if you are providing a breakdown in bentoData, the 'text' field must contain a friendly summary or helpful advice.
+2. Never assume perfect accuracy. Use estimates based on standard portions if quantity is unclear, and mention the assumed portion in your 'text' response.
+3. Always include assumed cooking oils in estimates.
+4. CRITICAL: All nutritional values (calories, protein, carbs, fat) MUST be realistic everyday integers. 
    - Calories should rarely exceed 3000 per meal.
    - Protein, carbs, and fat should rarely exceed 200g.
    - Do NOT output absurdly large numbers.
-4. If a user asks a general question, set hasBento to false and bentoData to null.
-5. If a user logs a food or asks for nutrition facts, set hasBento to true and provide the breakdown in bentoData.
-6. Make sure bentoData contains name, description, calories, protein, carbs, and fat.
+5. If a user asks a general question, set hasBento to false and bentoData to null.
+6. If a user logs a food or asks for nutrition facts, set hasBento to true and provide the breakdown in bentoData.
+7. Make sure bentoData contains name, description, calories, protein, carbs, and fat.
 `;
 
 const validateResponse = (data) => {
@@ -80,9 +81,9 @@ const chatWithGemini = async (req, res) => {
 
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash-lite",
-      contents: message,
+      contents: [{ role: "user", parts: [{ text: message }] }],
       config: {
-        systemInstruction,
+        systemInstruction: { parts: [{ text: systemInstruction }] },
         responseMimeType: "application/json",
         responseSchema: {
           type: "OBJECT",

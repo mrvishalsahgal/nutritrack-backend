@@ -14,6 +14,7 @@ dotenv.config();
 connectDB();
 
 const app = express();
+app.set('trust proxy', 1); // For cPanel/Apache proxies
 
 // Middleware
 app.use(helmet());
